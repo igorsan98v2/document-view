@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div th:text="${document.title}"></div>
+
+    <div th:text="${document.text}"></div>
+    <div >
+       <ul th:each="image: ${document.images}">
+           <img th:src="@{'/images/'+${image.originalFilename}}">
+       </ul>
+    </div>
+</body>
+</html>

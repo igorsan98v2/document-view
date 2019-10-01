@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Documents:</h1>
+    <ul th:each="doc: ${documents}">
+        <li>
+            <h2 th:text="${doc.title}"></h2>
+            <div th:text="${doc.text}"></div>
+            <!--ulth:each="image_path: ${doc.images_paths}">
+                <li>
+                    <img th:src="@{${image_path}}">
+                </li>
+            </ul-->
+        </li>
+    </ul>
+</body>
+</html>

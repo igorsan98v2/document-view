@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+    <form action="#" th:action="@{/document}" th:object="${document}" name="document-body" method="post" enctype="multipart/form-data">
+        <div>
+             <p>title</p>
+             <input type="text" name="title" th:field="*{title}">
+        </div>
+        <div>
+            <p>text</p>
+            <textarea name ="text" th:field="*{text}"></textarea>
+        </div>
+        <div>
+            <!--input type="file"  th:object ="${images}"-->
+        </div>
+        <div>
+            <input type="submit" name="ok" content="Отправить">
+        </div>
+    </form>
+</body>
+</html>
