@@ -1,8 +1,7 @@
-package com.ygs.docview.uttils.adapters;
+package com.ygs.docview.util.adapter;
 
-import com.ygs.docview.dao.Document;
 import com.ygs.docview.dao.DocumentEntity;
-import com.ygs.docview.service.WebDocument;
+import com.ygs.docview.util.WebDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -15,12 +14,14 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class DocumentAdapter {
+final public class DocumentAdapter {
     private static Logger logger = LoggerFactory.getLogger(DocumentAdapter.class);
     private DocumentAdapter(){}
     public static WebDocument getDocFromDaoToWeb(DocumentEntity documentEntity) throws IOException {
         WebDocument webDocument = new WebDocument();
         webDocument.setTitle(documentEntity.getTitle());
+        webDocument.setAuthor(documentEntity.getAuthor());
+        webDocument.setUUID(documentEntity.getUUID());
         logger.info(documentEntity.toString());
         List<String> fileLines = Files.readAllLines(Paths.get(documentEntity.getText()), StandardCharsets.UTF_8);
         String text="";
@@ -34,7 +35,7 @@ public class DocumentAdapter {
         DocumentEntity documentEntity = new DocumentEntity();
         documentEntity.setUUID(webDocument.getUUID());
         documentEntity.setTitle(webDocument.getTitle());
-
+        documentEntity.setAuthor(webDocument.getAuthor());
         String path = new ClassPathResource("static/texts").getFile().getAbsolutePath()+
                 File.separatorChar+ documentEntity.getUUID()+".txt";
         logger.info("text path"+ path);

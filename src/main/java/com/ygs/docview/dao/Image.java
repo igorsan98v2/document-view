@@ -8,18 +8,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="IMAGES")
+@Table(name="images")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @NotNull
     @Size(max=255)
     String path;
 
     @ManyToOne
-    @JoinColumn(name = "image_id" ,nullable = false)
+    @JoinColumn(name = "document_id" ,nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     DocumentEntity document;
 

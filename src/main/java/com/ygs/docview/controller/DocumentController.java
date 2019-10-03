@@ -1,9 +1,9 @@
-package com.ygs.docview;
+package com.ygs.docview.controller;
 
 import com.ygs.docview.dao.DocumentEntity;
-import com.ygs.docview.repos.DocumentsRepo;
-import com.ygs.docview.service.WebDocument;
-import com.ygs.docview.uttils.adapters.DocumentAdapter;
+import com.ygs.docview.repo.DocumentsRepo;
+import com.ygs.docview.util.WebDocument;
+import com.ygs.docview.util.adapter.DocumentAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @Controller
 public class DocumentController {
     @Autowired
-    DocumentsRepo documentsRepo;
+    public DocumentsRepo documentsRepo;
 
     @GetMapping("/document")
     public String documentEdit(Model model) {
@@ -36,7 +36,7 @@ public class DocumentController {
     @PostMapping("/document")
     public String documentSave(@RequestParam("images") List<MultipartFile> fileList,@ModelAttribute("document") WebDocument document){
         final Logger logger = LoggerFactory.getLogger(DocumentController.class);
-
+        document.setAuthor("Igor Yutsyk");
         List <String> images_paths= new ArrayList<>(5);
         if(fileList!=null){
             try{
@@ -46,23 +46,21 @@ public class DocumentController {
                 logger.info(document.toString());
                 fileList.stream().forEach(image->{
 
-                File file =new File(path+ File.separatorChar + image.getOriginalFilename()+"-"+ document.getUUID());
-                logger.info("file created by path"+file.getAbsolutePath());
-                try {
-                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
-                    byte[] bytes = image.getBytes();
-                    stream.write(bytes);
-                    stream.close();
-                    images_paths.add(file.getAbsolutePath());
-                }
-                catch (FileNotFoundException e){
-                    e.printStackTrace();
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-
-            });
+                    File file =new File(path+ File.separatorChar + image.getOriginalFilename()+"-"+ document.getUUID());
+                    logger.info("file created by path"+file.getAbsolutePath());
+                    try {
+                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+                        byte[] bytes = image.getBytes();
+                        stream.write(bytes);
+                        stream.close();
+                        images_paths.add(file.getAbsolutePath());
+                    }
+                    catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    } });
                 //TODO it`s wrong place for this next lines of code
                 logger.info(document.toString());
                 documentsRepo.save(DocumentAdapter.getDocEntityFromWeb(document));

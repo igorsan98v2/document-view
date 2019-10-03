@@ -1,4 +1,4 @@
-package com.ygs.docview;
+package com.ygs.docview.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;

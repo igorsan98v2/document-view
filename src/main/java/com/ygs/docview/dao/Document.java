@@ -1,11 +1,11 @@
 package com.ygs.docview.dao;
 
-import java.util.List;
 import java.util.UUID;
 
 public abstract class Document {
     private String title;
     private String text;
+    private String author;
 
     public Document() {
     }
@@ -28,5 +28,11 @@ public abstract class Document {
     public abstract UUID getUUID();
     public abstract void setUUID(UUID uuid);
 
+    public String getAuthor() {
+        return author;
+    }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }

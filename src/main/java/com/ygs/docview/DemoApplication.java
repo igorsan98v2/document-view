@@ -1,5 +1,6 @@
 package com.ygs.docview;
 
+import com.ygs.docview.controller.DocumentController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

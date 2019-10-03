@@ -6,22 +6,23 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+@Entity
+@Table(name="saves")
 public class SaveFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @NotNull
     @Size(max=255)
-    String path;
+    private String path;
 
     @NotNull
     @Size(max=16)
-    String type;
+    private String type;
 
     @ManyToOne
-    @JoinColumn(name = "save_file_id" ,nullable = false)
+    @JoinColumn(name = "document_id" ,nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     DocumentEntity document;
 

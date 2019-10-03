@@ -3,11 +3,12 @@ package com.ygs.docview.dao;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "DOCUMENTS")
+@Table(name = "documents")
 public class DocumentEntity extends Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,11 @@ public class DocumentEntity extends Document {
     @Size(max=144)
     private String title;
 
-    @OneToMany(mappedBy = "image")
-    private Set<Image> images;
+   @OneToMany(mappedBy = "document")
+    private Set<Image> images =new HashSet<>();
 
-    @OneToMany(mappedBy = "save_file")
-    private Set<SaveFile> saveFiles;
+    @OneToMany(mappedBy = "document")
+    private Set<SaveFile> saveFiles = new HashSet<>();
 
     public DocumentEntity() {
 
@@ -51,7 +52,7 @@ public class DocumentEntity extends Document {
 
     @Override
     public String toString() {
-        return String.format("[id:%d uuid:%s title:%s text:%s]",id,uuid.toString(),getTitle(),getText());
+        return String.format("[id:%d uuid:%8s title:%8s text:%8s]",id,uuid.toString(),getTitle(),getText());
     }
 
     @Override
