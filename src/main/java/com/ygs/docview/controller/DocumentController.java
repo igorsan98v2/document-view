@@ -1,9 +1,11 @@
 package com.ygs.docview.controller;
 
-import com.ygs.docview.dao.DocumentEntity;
+import com.ygs.docview.dao.DocumentDAO;
 import com.ygs.docview.repo.DocumentsRepo;
+import com.ygs.docview.service.UploadService;
+import com.ygs.docview.util.AttachedIMG;
 import com.ygs.docview.util.WebDocument;
-import com.ygs.docview.util.adapter.DocumentAdapter;
+import com.ygs.docview.util.converter.DocumentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +14,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 
 @Controller
 public class DocumentController {
     @Autowired
-    public DocumentsRepo documentsRepo;
-
+    private DocumentsRepo documentsRepo;
+    @Autowired
+    private UploadService uploadService;
     @GetMapping("/document")
     public String documentEdit(Model model) {
         model.addAttribute("document", new WebDocument());
+        model.addAttribute("attached",new AttachedIMG());
         model.addAttribute("documents",new ArrayList<WebDocument>(64));
         return "document";
     }
     @PostMapping("/document")
-    public String documentSave(@RequestParam("images") List<MultipartFile> fileList,@ModelAttribute("document") WebDocument document){
+    public String documentSave(@ModelAttribute("attached") AttachedIMG attachedIMG,@ModelAttribute("document") WebDocument document){
         final Logger logger = LoggerFactory.getLogger(DocumentController.class);
-        document.setAuthor("Igor Yutsyk");
+       /* document.setAuthor("Igor Yutsyk");
         List <String> images_paths= new ArrayList<>(5);
         if(fileList!=null){
             try{
@@ -63,14 +62,14 @@ public class DocumentController {
                     } });
                 //TODO it`s wrong place for this next lines of code
                 logger.info(document.toString());
-                documentsRepo.save(DocumentAdapter.getDocEntityFromWeb(document));
+                documentsRepo.save(DocumentConverter.getDocEntityFromWeb(document));
                 logger.info("doc saved");
 
             }catch (IOException e){
                 e.printStackTrace();
             }
             finally {
-                document.setImages(images_paths);
+                document.setImgList(images_paths);
                 return "view";
             }
 
@@ -78,16 +77,25 @@ public class DocumentController {
 
         }
         else logger.info("file list is empty");
-
+        */
+        try {
+            logger.info("attached file list"+attachedIMG.getImgList().size());
+            uploadService.upload(attachedIMG.getImgList(),document);
+            document.getImages().stream().forEach(image->logger.info("image path"+image.toString()));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return "error";
+        }
         return "view";
     }
 
     @GetMapping("/documents")
     public String getAllDocuments(@ModelAttribute("documents") ArrayList<WebDocument> webDocuments){
-        Iterable<DocumentEntity> documents = documentsRepo.findAll();
+        Iterable<DocumentDAO> documents = documentsRepo.findAll();
 
             documents.forEach(entity ->   {try {
-                webDocuments.add(DocumentAdapter.getDocFromDaoToWeb(entity));
+                webDocuments.add(DocumentConverter.getWebFromDAO(entity));
             }catch (IOException e){
             e.printStackTrace(); }
             });

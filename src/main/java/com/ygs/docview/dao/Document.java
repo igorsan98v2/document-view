@@ -2,37 +2,22 @@ package com.ygs.docview.dao;
 
 import java.util.UUID;
 
-public abstract class Document {
-    private String title;
-    private String text;
-    private String author;
+public interface Document {
 
-    public Document() {
-    }
 
-    public String getTitle() {
-        return title;
-    }
+    String getTitle();
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    void setTitle(String title);
 
-    public String getText() {
-        return text;
-    }
+     String getText();
 
-    public void setText(String text) {
-        this.text = text;
-    }
-    public abstract UUID getUUID();
-    public abstract void setUUID(UUID uuid);
+     void setText(String text) ;
+     UUID getUUID();
+     void setUUID(UUID uuid);
 
-    public String getAuthor() {
-        return author;
-    }
+     String getAuthor();
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+     void setAuthor(String author);
+
+
 }

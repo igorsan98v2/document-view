@@ -11,7 +11,7 @@
     <div th:text="${document.text}"></div>
     <div >
        <ul th:each="image: ${document.images}">
-           <img th:src="${image}">
+           <img th:src="@{image}">
        </ul>
     </div>
 </body>

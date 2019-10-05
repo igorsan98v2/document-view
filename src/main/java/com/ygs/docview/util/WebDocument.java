@@ -1,10 +1,12 @@
 package com.ygs.docview.util;
 
 import com.ygs.docview.dao.Document;
+import com.ygs.docview.dao.DocumentDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -12,13 +14,16 @@ import java.util.UUID;
  * @author Ihor Yutsyk
  *
  * class WebDocument is using for showing document in web page
- * it is more lite version of {@link com.ygs.docview.dao.DocumentEntity} class
- * @see com.ygs.docview.dao.DocumentEntity
+ * it is more lite version of {@link DocumentDAO} class
+ * @see DocumentDAO
  * */
-public class WebDocument extends Document  implements Serializable {
+public class WebDocument   implements Document ,Serializable {
 
     /** store data that contain list of images path url`s that`s use for showing attached to document image*/
     private List<String> images_paths;
+    private String title;
+    private String author;
+    private String text;
     /**filed for showing doc in separated rout by route http://{service_name}/documents/{uuid}*/
     private UUID uuid;
 
@@ -48,6 +53,27 @@ public class WebDocument extends Document  implements Serializable {
         }
         images_paths.add(image);
     }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public void setText(String text) {
+        this.text = text;
+    }
+
     /**@return {@link #uuid} of web-document*/
     public UUID getUUID(){
         return uuid;
@@ -58,9 +84,22 @@ public class WebDocument extends Document  implements Serializable {
     }
 
     @Override
+    public String getAuthor() {
+        return author;
+    }
+
+    @Override
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @Override
     public String toString() {
         return String.format("[id=%8s title=%8s text=%16s]",uuid,getTitle(),getText());
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(author,uuid);
+    }
 }

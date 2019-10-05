@@ -3,9 +3,9 @@ package com.ygs.docview.util.factory;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.ygs.docview.dao.DocumentEntity;
+import com.ygs.docview.dao.DocumentDAO;
 import com.ygs.docview.util.WebDocument;
-import com.ygs.docview.util.adapter.DocumentAdapter;
+import com.ygs.docview.util.converter.DocumentConverter;
 import org.springframework.core.io.ClassPathResource;
 
 
@@ -19,8 +19,8 @@ import java.util.List;
 
 final class FactoryPDF implements SaveFile{
     public String path=null;
-    public FactoryPDF(DocumentEntity document) throws FileNotFoundException,DocumentException,IOException{
-        WebDocument webDocument = DocumentAdapter.getDocFromDaoToWeb(document);
+    public FactoryPDF(DocumentDAO document) throws FileNotFoundException,DocumentException,IOException{
+        WebDocument webDocument = DocumentConverter.getWebFromDAO(document);
         init(webDocument);
     }
     public FactoryPDF(WebDocument webDocument) throws FileNotFoundException,DocumentException,IOException{

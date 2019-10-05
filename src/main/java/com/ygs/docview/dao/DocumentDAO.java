@@ -4,12 +4,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "documents")
-public class DocumentEntity extends Document {
+public class DocumentDAO implements Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,14 +22,15 @@ public class DocumentEntity extends Document {
     @NotNull
     @Size(max=144)
     private String title;
-
+    @Size(max = 144)
+    private String author;
    @OneToMany(mappedBy = "document")
     private Set<Image> images =new HashSet<>();
 
     @OneToMany(mappedBy = "document")
     private Set<SaveFile> saveFiles = new HashSet<>();
 
-    public DocumentEntity() {
+    public DocumentDAO() {
 
     }
 
@@ -40,6 +42,16 @@ public class DocumentEntity extends Document {
     @Override
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    @Override
+    public String getAuthor() {
+        return author;
+    }
+
+    @Override
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public long getId() {
@@ -89,5 +101,20 @@ public class DocumentEntity extends Document {
 
     public void setSaveFiles(Set<SaveFile> saveFiles) {
         this.saveFiles = saveFiles;
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid,author);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof DocumentDAO){
+            DocumentDAO entity = (DocumentDAO) o;
+            return entity.getUUID().equals(uuid);
+        }
+        return false;
     }
 }
