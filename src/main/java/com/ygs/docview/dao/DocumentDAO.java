@@ -24,11 +24,11 @@ public class DocumentDAO implements Document {
     private String title;
     @Size(max = 144)
     private String author;
-   @OneToMany(mappedBy = "document")
-    private Set<Image> images =new HashSet<>();
+   @OneToMany(fetch = FetchType.EAGER,mappedBy = "document")
+    private Set<Image> images =new HashSet<>(5);
 
-    @OneToMany(mappedBy = "document")
-    private Set<SaveFile> saveFiles = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "document")
+    private Set<SaveFile> saveFiles = new HashSet<>(5);
 
     public DocumentDAO() {
 

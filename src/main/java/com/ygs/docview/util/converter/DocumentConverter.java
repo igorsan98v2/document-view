@@ -30,7 +30,11 @@ final public class DocumentConverter {
     }
     public static Set<Image> convertImagesToDAO(Collection<String> images_paths, DocumentDAO entity){
         Set<Image> images = new HashSet<>(5);
-        images_paths.stream().forEach(image_path->images.add(new Image(image_path,entity)));
+        images_paths.stream().forEach(image_path->{
+            images.add(new Image(image_path,entity));
+            logger.info(image_path);
+        });
+        entity.getImages().addAll(images);
         return images;
     }
 

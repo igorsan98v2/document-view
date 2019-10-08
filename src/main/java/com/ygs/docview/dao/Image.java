@@ -70,4 +70,9 @@ public class Image {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return  "image path"+path;
+    }
 }

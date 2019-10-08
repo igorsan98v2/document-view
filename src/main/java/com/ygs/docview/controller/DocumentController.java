@@ -32,6 +32,10 @@ public class DocumentController {
         model.addAttribute("documents",new ArrayList<WebDocument>(64));
         return "document";
     }
+
+
+
+
     @PostMapping("/document")
     public String documentSave(@ModelAttribute("attached") AttachedIMG attachedIMG,@ModelAttribute("document") WebDocument document){
         final Logger logger = LoggerFactory.getLogger(DocumentController.class);
@@ -80,8 +84,11 @@ public class DocumentController {
         */
         try {
             logger.info("attached file list"+attachedIMG.getImgList().size());
-            uploadService.upload(attachedIMG.getImgList(),document);
-            document.getImages().stream().forEach(image->logger.info("image path"+image.toString()));
+            DocumentDAO documentDAO = uploadService.upload(attachedIMG.getImgList(),document);
+            document.getImages().stream().forEach(image->logger.info("image path on web "+image.toString()));
+            documentDAO.getImages().stream().forEach(image->logger.info("image path on dao "+image.toString()));
+            DocumentDAO fromJPA = documentsRepo.findByUuid(documentDAO.getUUID());
+            fromJPA.getImages().stream().forEach(image->logger.info("image path on dao from jpa  "+image.toString()));
         }
         catch (IOException e){
             e.printStackTrace();
