@@ -1,6 +1,8 @@
 package com.ygs.docview.config;
 
 import com.ygs.docview.controller.DocRestfulAPI;
+import com.ygs.docview.service.DeleteService;
+import com.ygs.docview.service.DownloadService;
 import com.ygs.docview.service.EditService;
 import com.ygs.docview.service.UploadService;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +23,13 @@ public class AppConfig {
             return new EditService();
         }
 
-
+        @Bean
+        public DownloadService downloadService(){
+            return new DownloadService();
+        }
+        @Bean
+        public DeleteService deleteService(){
+            return new DeleteService();
+        }
 
 }

@@ -4,6 +4,7 @@ import com.ygs.docview.dao.DocumentDAO;
 import com.ygs.docview.repo.DocumentsRepo;
 import com.ygs.docview.service.EditService;
 import com.ygs.docview.service.UploadService;
+import com.ygs.docview.util.DBContentGenerator;
 import com.ygs.docview.util.WebDocument;
 import com.ygs.docview.util.converter.DocumentConverter;
 import org.slf4j.Logger;
@@ -45,6 +46,19 @@ public class DocRestfulAPI {
 
    // @GetMapping("api/documents/page={page_num}&page_size={page_size}")
    // @RequestMapping(method=RequestMethod.GET, value={"page","page_size"})
+
+
+    @RequestMapping(
+            value = "/api/documents/generator/",
+            params = { "page", "page_size" },
+            method = GET)
+    @ResponseBody
+    void generateContent(@RequestParam(name="page") int pageNum, @RequestParam("page_size") int pageSize){
+
+        DBContentGenerator dbContentGenerator = new DBContentGenerator(pageNum,pageSize,documentsRepo);
+        dbContentGenerator.generate(5);
+    }
+
    @RequestMapping(
            value = "/api/documents/view/",
            params = { "page", "page_size" },

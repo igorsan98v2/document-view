@@ -2,6 +2,7 @@ package com.ygs.docview.controller;
 
 import com.ygs.docview.dao.DocumentDAO;
 import com.ygs.docview.repo.DocumentsRepo;
+import com.ygs.docview.service.DownloadService;
 import com.ygs.docview.service.UploadService;
 import com.ygs.docview.util.AttachedIMG;
 import com.ygs.docview.util.WebDocument;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 @Controller
@@ -25,12 +28,21 @@ public class DocumentController {
     private DocumentsRepo documentsRepo;
     @Autowired
     private UploadService uploadService;
+
+
     @GetMapping("/document")
     public String documentEdit(Model model) {
         model.addAttribute("document", new WebDocument());
         model.addAttribute("attached",new AttachedIMG());
         model.addAttribute("documents",new ArrayList<WebDocument>(64));
         return "document";
+    }
+
+    @GetMapping("/document/{uuid}")
+    public  String showDocByUUID(@PathVariable(name="uuid") UUID uuid,Model model){
+        WebDocument webDocument = uploadService.getWebDocumentByUUID(uuid);
+        model.addAttribute("document",webDocument);
+        return "view";
     }
 
 

@@ -1,5 +1,6 @@
 package com.ygs.docview.dao;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public interface Document {
@@ -19,5 +20,7 @@ public interface Document {
 
      void setAuthor(String author);
 
+     Timestamp getTimestamp();
 
+     void setTimestamp(Timestamp timestamp);
 }

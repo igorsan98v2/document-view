@@ -4,6 +4,7 @@ import com.ygs.docview.dao.Document;
 import com.ygs.docview.dao.DocumentDAO;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ public class WebDocument   implements Document ,Serializable {
     private String text;
     /**filed for showing doc in separated rout by route http://{service_name}/documents/{uuid}*/
     private UUID uuid;
-
+    private Timestamp timestamp;
     public WebDocument() {
 
     }
@@ -91,6 +92,16 @@ public class WebDocument   implements Document ,Serializable {
     @Override
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @Override
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override

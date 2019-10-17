@@ -3,12 +3,14 @@ package com.ygs.docview.dao;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
+
 @Table(name = "documents")
 public class DocumentDAO implements Document {
     @Id
@@ -24,6 +26,10 @@ public class DocumentDAO implements Document {
     private String title;
     @Size(max = 144)
     private String author;
+
+    @NotNull
+    private Timestamp timestamp;
+
    @OneToMany(fetch = FetchType.EAGER,mappedBy = "document")
     private Set<Image> images =new HashSet<>(5);
 
@@ -116,5 +122,13 @@ public class DocumentDAO implements Document {
             return entity.getUUID().equals(uuid);
         }
         return false;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

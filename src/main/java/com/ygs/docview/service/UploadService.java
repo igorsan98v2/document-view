@@ -20,6 +20,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -102,6 +104,7 @@ public class UploadService {
             loadImages(fileList,document,path);
         }
 
+        document.setTimestamp(Timestamp.from(Instant.now()));
 
         docDAO = documentsRepo.save(DocumentConverter.getDocEntityFromWeb(document));
         docDAO.getImages().stream().forEach(image -> imagesRepo.save(image));
@@ -187,5 +190,17 @@ public class UploadService {
 
         });
         return webDocuments;
+    }
+
+    public WebDocument getWebDocumentByUUID(UUID uuid){
+        WebDocument webDocument =  null;
+        DocumentDAO documentDAO = documentsRepo.findByUuid(uuid);
+        try {
+            webDocument =  DocumentConverter.getWebFromDAO(documentDAO);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return webDocument;
     }
 }

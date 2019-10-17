@@ -26,6 +26,7 @@ final public class DocumentConverter {
         String text = convertTextDAOtoWeb(documentDAO);
         webDocument.setText(text);
         webDocument.setImages(convertImagesToWeb(documentDAO));
+        webDocument.setTimestamp(documentDAO.getTimestamp());
         return webDocument;
     }
     public static Set<Image> convertImagesToDAO(Collection<String> images_paths, DocumentDAO entity){
@@ -72,6 +73,7 @@ final public class DocumentConverter {
         documentDAO.setTitle(webDocument.getTitle());
         documentDAO.setAuthor(webDocument.getAuthor());
         documentDAO.setText(createFileFromText(webDocument));
+        documentDAO.setTimestamp(webDocument.getTimestamp());
         documentDAO.setImages(convertImagesToDAO(webDocument.getImages(), documentDAO));
         logger.info("from web"+ documentDAO);
         return documentDAO;
